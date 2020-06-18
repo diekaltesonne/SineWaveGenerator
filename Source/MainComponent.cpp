@@ -1,8 +1,8 @@
 #ifndef MAINCOMPONENT_H_INCLUDED
 #define MAINCOMPONENT_H_INCLUDED
 
+#include "MainComponent.h"
 #include "../JuceLibraryCode/JuceHeader.h"
-
 #include <limits>
 #include "WhiteNoise.h"
 #include "SineWave.h"
@@ -11,21 +11,21 @@
 #include "TriangleWave.h"
 #include "OscillatorWave.h"
 #include "WaveformViewComponent.h"
-//#include "SpectralViewComponent.h"
 
+//#include "SpectralViewComponent.h"
 //==============================================================================
 /*
 This component lives inside our window, and this is where you should put all
 your controls and content.
 */
-class MainContentComponent : public AudioAppComponent{
+class MainContentComponent : public AudioAppComponent {
 public:
     //==============================================================================
     MainContentComponent()
     {
-        setSize(800, 800);
+        setSize(1368,800 );
         setAudioChannels(0, 2);
-
+        
         sineWaveOsc.setWaveType(new SineWave());
         squareWaveOsc.setWaveType(new SquareWave());
         sawWaveOsc.setWaveType(new SawtoothWave());
@@ -48,11 +48,11 @@ public:
         CalibrationOsc.muteOn();
 
         //sineWaveOsc.setColor(Colour::fromRGB(0x4E, 0x99, 0xFE) );
-        sineWaveOsc.setColor(Colour::fromRGB(0,0,0));
-        squareWaveOsc.setColor(Colour::fromRGB(0,0,0));
-        sawWaveOsc.setColor(Colour::fromRGB(0,0,0));
-        triangleWaveOsc.setColor(Colour::fromRGB(0,0,0));
-        smoothCalibrationOsc.setColor(Colour::fromRGB(0,0,0));
+        sineWaveOsc.setColor(Colour::fromRGB(0, 0, 0));
+        squareWaveOsc.setColor(Colour::fromRGB(0, 0, 0));
+        sawWaveOsc.setColor(Colour::fromRGB(0, 0, 0));
+        triangleWaveOsc.setColor(Colour::fromRGB(0, 0, 0));
+        smoothCalibrationOsc.setColor(Colour::fromRGB(0, 0, 0));
         CalibrationOsc.setColor(Colour::fromRGB(0, 0, 0));
 
         addAndMakeVisible(waveformView);
@@ -65,7 +65,7 @@ public:
         addAndMakeVisible(CalibrationOsc);
         m_isInitialized = true;
     }
-    ~MainContentComponent(){
+    ~MainContentComponent() {
         shutdownAudio();
     }
     //==============================================================================
@@ -78,14 +78,14 @@ public:
         Random random;
         // generate sin wave in mono
         for (int sample = 0; sample < numSamples; ++sample) {
-            
+
             double sine = sineWaveOsc.nextSample(m_time, numSamples);
             double square = squareWaveOsc.nextSample(m_time, numSamples);
             double saw = sawWaveOsc.nextSample(m_time, numSamples);
             double triangle = triangleWaveOsc.nextSample(m_time, numSamples);
             double calibr = smoothCalibrationOsc.nextSample(m_time, numSamples);
             double calibr_1 = CalibrationOsc.nextSample(m_time, numSamples);
-            pmonoBuffer[sample] = sine + square + saw + triangle+ calibr_1 + calibr; calibr_1;
+            pmonoBuffer[sample] = sine + square + saw + triangle + calibr_1 + calibr; calibr_1;
             m_time += m_deltaTime;
         }
     }
@@ -126,14 +126,16 @@ public:
 
     void resized() override {
         Rectangle<int> area(getLocalBounds());
-        sineWaveOsc.setBounds(0, 0, sineWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
-        squareWaveOsc.setBounds(0, 150, squareWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
-        sawWaveOsc.setBounds(0, 300, sawWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
-        triangleWaveOsc.setBounds(0, 450, triangleWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
-        smoothCalibrationOsc.setBounds(440, 300, smoothCalibrationOsc.getBounds().getWidth(), smoothCalibrationOsc.getBounds().getHeight());
-        // waveform view
-        CalibrationOsc.setBounds(880, 0, CalibrationOsc.getBounds().getWidth(), CalibrationOsc.getBounds().getHeight());
+        CalibrationOsc.setBounds(0, 0, CalibrationOsc.getBounds().getWidth(), CalibrationOsc.getBounds().getHeight());
+        smoothCalibrationOsc.setBounds(0, 300, smoothCalibrationOsc.getBounds().getWidth(), smoothCalibrationOsc.getBounds().getHeight());
         waveformView.setBounds(440, 0, waveformView.getBounds().getWidth(), waveformView.getBounds().getHeight());
+
+        sineWaveOsc.setBounds(880, 0, sineWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
+        squareWaveOsc.setBounds(880, 150, squareWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
+        sawWaveOsc.setBounds(880, 300, sawWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
+        triangleWaveOsc.setBounds(880, 450, triangleWaveOsc.getBounds().getWidth(), sineWaveOsc.getBounds().getHeight());
+        
+        // waveform view
         //spectralView.setBounds(440, 300, spectralView.getBounds().getWidth(), spectralView.getBounds().getHeight());
     }
 
@@ -148,12 +150,12 @@ private:
     OscillatorWaveSpec_2 CalibrationOsc;
 
     WaveformViewComponent waveformView;
-   // SpectralViewComponent spectralView;
+    // SpectralViewComponent spectralView;
 
-    // Your private member variables go here...
+     // Your private member variables go here...
     double m_time;
     double m_deltaTime;
-    float *monoBuffer;
+    float* monoBuffer;
 
     bool m_isInitialized = false;
 
@@ -162,5 +164,5 @@ private:
 
 // (This function is called by the app startup code to create our main component)
 Component* createMainContentComponent() { return new MainContentComponent(); }
-
 #endif  // MAINCOMPONENT_H_INCLUDED
+

@@ -170,6 +170,7 @@ public:
     double getFrequencyHigh() { return wave->getFrequencyHigh(); }
     double getFrequencyDown() { return wave->getFrequencyDown(); }
     double getFrequencyStep() { return wave->getFrequencyStep(); }
+    double getFrequencyChangeTime() { return wave->getFrequencyChangeTime();}
     double getSignalOn() { return wave->getSignalOn(); }
     double getSignalOff() { return wave->getSignalOff();}
 
@@ -207,6 +208,9 @@ private:
 
     ScopedPointer<Slider> freqSlider_2;
     ScopedPointer<Label> label5;
+
+    ScopedPointer<Slider> freqSlider_3;
+    ScopedPointer<Label> label5_1;
 
     ScopedPointer<Slider> sigonSlider;
     ScopedPointer<Label> label6;

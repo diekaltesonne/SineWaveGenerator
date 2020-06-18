@@ -7,28 +7,26 @@
 
   ==============================================================================
 */
-
 #include "../JuceLibraryCode/JuceHeader.h"
-
 Component* createMainContentComponent();
 
 //==============================================================================
-class SynthTutorialPartOneApplication  : public JUCEApplication
+class SynthTutorialPartOneApplication : public JUCEApplication
 {
 public:
     //==============================================================================
     SynthTutorialPartOneApplication() {}
 
-    const String getApplicationName() override       { return ProjectInfo::projectName; }
-    const String getApplicationVersion() override    { return ProjectInfo::versionString; }
-    bool moreThanOneInstanceAllowed() override       { return true; }
+    const String getApplicationName() override { return ProjectInfo::projectName; }
+    const String getApplicationVersion() override { return ProjectInfo::versionString; }
+    bool moreThanOneInstanceAllowed() override { return true; }
 
     //==============================================================================
-    void initialise (const String& commandLine) override
+    void initialise(const String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
 
-        mainWindow = new MainWindow (getApplicationName());
+        mainWindow = new MainWindow(getApplicationName());
     }
 
     void shutdown() override
@@ -46,7 +44,7 @@ public:
         quit();
     }
 
-    void anotherInstanceStarted (const String& commandLine) override
+    void anotherInstanceStarted(const String& commandLine) override
     {
         // When another instance of the app is launched while this one is running,
         // this method is invoked, and the commandLine parameter tells you what
@@ -58,19 +56,19 @@ public:
         This class implements the desktop window that contains an instance of
         our MainContentComponent class.
     */
-    class MainWindow    : public DocumentWindow
+    class MainWindow : public DocumentWindow
     {
     public:
-        MainWindow (String name)  : DocumentWindow (name,
-                                                    Colours::lightgrey,
-                                                    DocumentWindow::allButtons)
+        MainWindow(String name) : DocumentWindow(name,
+            Colours::lightgrey,
+            DocumentWindow::allButtons)
         {
-            setUsingNativeTitleBar (true);
-            setContentOwned (createMainContentComponent(), true);
-            setResizable (true, true);
+            setUsingNativeTitleBar(true);
+            setContentOwned(createMainContentComponent(), true);
+            setResizable(true, true);
 
-            centreWithSize (getWidth(), getHeight());
-            setVisible (true);
+            centreWithSize(getWidth(), getHeight());
+            setVisible(true);
         }
 
         void closeButtonPressed() override
@@ -89,7 +87,7 @@ public:
         */
 
     private:
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
     };
 
 private:
@@ -98,4 +96,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (SynthTutorialPartOneApplication)
+START_JUCE_APPLICATION(SynthTutorialPartOneApplication)

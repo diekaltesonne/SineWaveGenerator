@@ -172,9 +172,10 @@ void OscillatorWave::buttonClicked (Button* buttonThatWasClicked)
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-OscillatorWaveSpec::OscillatorWaveSpec(){
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+OscillatorWaveSpec::OscillatorWaveSpec(){
     setName("OscillatorWave");
     addAndMakeVisible(volumeSlider = new Slider("volumeSlider"));
     volumeSlider->setRange(-96, 6, 0);
@@ -384,6 +385,7 @@ OscillatorWaveSpec_2::OscillatorWaveSpec_2() {
     phaseSlider->setSliderStyle(Slider::LinearHorizontal);
     phaseSlider->setTextBoxStyle(Slider::TextBoxLeft, false, 80, 20);
     phaseSlider->addListener(this);
+
     addAndMakeVisible(label2 = new Label("new label",
         TRANS("Phase")));
     label2->setFont(Font(15.00f, Font::plain));
@@ -432,13 +434,28 @@ OscillatorWaveSpec_2::OscillatorWaveSpec_2() {
     label5->setColour(TextEditor::textColourId, Colours::black);
     label5->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
+    addAndMakeVisible(freqSlider_3 = new Slider("freqSliderStep"));
+    freqSlider_3->setRange(0, 1000, 0);
+    freqSlider_3->setSliderStyle(Slider::LinearHorizontal);
+    freqSlider_3->setTextBoxStyle(Slider::TextBoxLeft, false, 80, 20);
+    freqSlider_3->addListener(this);
+    addAndMakeVisible(label5_1 = new Label("new label",
+        TRANS("FCT")));
+    label5_1->setFont(Font(15.00f, Font::plain));
+    label5_1->setJustificationType(Justification::centredLeft);
+    label5_1->setEditable(false, false, false);
+    label5_1->setColour(TextEditor::textColourId, Colours::black);
+    label5_1->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+
+
+
     addAndMakeVisible(sigonSlider = new Slider("SignalOnSliderStep"));
     sigonSlider->setRange(0, 1000, 0);
     sigonSlider->setSliderStyle(Slider::LinearHorizontal);
     sigonSlider->setTextBoxStyle(Slider::TextBoxLeft, false, 80, 20);
     sigonSlider->addListener(this);
     addAndMakeVisible(label6 = new Label("new label",
-        TRANS("smp of")));
+        TRANS("Sig dur")));
     label6->setFont(Font(15.00f, Font::plain));
     label6->setJustificationType(Justification::centredLeft);
     label6->setEditable(false, false, false);
@@ -451,7 +468,7 @@ OscillatorWaveSpec_2::OscillatorWaveSpec_2() {
     sigoffSlider->setTextBoxStyle(Slider::TextBoxLeft, false, 80, 20);
     sigoffSlider->addListener(this);
     addAndMakeVisible(label7 = new Label("new label",
-        TRANS("smp on")));
+        TRANS("Sig del")));
     label7->setFont(Font(15.00f, Font::plain));
     label7->setJustificationType(Justification::centredLeft);
     label7->setEditable(false, false, false);
@@ -468,29 +485,31 @@ OscillatorWaveSpec_2::OscillatorWaveSpec_2() {
 
     addAndMakeVisible(mute = new ToggleButton("mute"));
     mute->addListener(this);
-    setSize(440, 450);
+    setSize(440, 300);
 
 
     //[Constructor] You can add your own custom stuff here..
-    volumeSlider->setTextValueSuffix(" db");
+    volumeSlider->setTextValueSuffix("db");
     volumeSlider->setValue(-24);
     volumeSlider->setSkewFactorFromMidPoint(-36);
 
-    phaseSlider->setTextValueSuffix(" ~");
+    phaseSlider->setTextValueSuffix("~");
     phaseSlider->setValue(0.0);
 
-    freqSlider->setTextValueSuffix(" Hz");
+    freqSlider->setTextValueSuffix("Hz");
     freqSlider->setValue(4000);
     //freqSlider->setSkewFactorFromMidPoint(100.0);
 
     freqSlider_1->setTextValueSuffix(" Hz");
-    freqSlider_1->setValue(200);
+    freqSlider_1->setValue(3000);
     freqSlider_2->setTextValueSuffix(" Hz");
     freqSlider_2->setValue(1.0);
+    freqSlider_3->setTextValueSuffix("SMP");
+    freqSlider_3->setValue(10.0);
     sigonSlider->setTextValueSuffix("SMP");
-    sigonSlider->setValue(0);
+    sigonSlider->setValue(100);
     sigoffSlider->setTextValueSuffix("SMP");
-    sigoffSlider->setValue(0);
+    sigoffSlider->setValue(50);
     
     //freqSlider_1->setSkewFactorFromMidPoint(100.0);
     //[/Constructor]
@@ -506,6 +525,8 @@ OscillatorWaveSpec_2::~OscillatorWaveSpec_2() {
     label4 = nullptr;
     freqSlider_2 = nullptr;
     label5 = nullptr;
+    freqSlider_3 = nullptr;
+    label5_1 = nullptr;
     sigonSlider = nullptr;
     label6 = nullptr;
     sigoffSlider = nullptr;
@@ -527,18 +548,28 @@ void OscillatorWaveSpec_2::resized()
 
     volumeSlider->setBounds(100, 44 - (24 / 2), 300, 24);
     label->setBounds(100 + -70, (44 - (24 / 2)) + 0, 60, 24);
+    
     phaseSlider->setBounds(100, 82 - (24 / 2), 300, 24);
     label2->setBounds(100 + -70, (44 - (24 / 2)) + 38, 60, 24);
+    
     freqSlider->setBounds(100, 119 - (24 / 2), 300, 24);
     label3->setBounds(100 + -70, (44 - (24 / 2)) + 75, 60, 24);
+    
     freqSlider_1->setBounds(100, 156 - (24 / 2), 300, 24);
     label4->setBounds(100 + -70, (44 - (24 / 2)) + 112, 60, 24);
+    
     freqSlider_2->setBounds(100, 183 - (24 / 2), 300, 24);
     label5->setBounds(100 + -70, (44 - (24 / 2)) + 139, 60, 24);
-    sigonSlider->setBounds(100, 210 - (24 / 2), 300, 24);
-    label6->setBounds(100 + -70, (44 - (24 / 2)) + 161, 60, 24);
-    sigoffSlider->setBounds(100, 237 - (24 / 2), 300, 24);
-    label7->setBounds(100 + -70, (44 - (24 / 2)) + 188, 60, 24);
+    
+    freqSlider_3->setBounds(100, 210 - (24 / 2), 300, 24);
+    label5_1->setBounds(100 + -70, (44 - (24 / 2)) + 161, 60, 24);
+    
+    sigonSlider->setBounds(100, 237 - (24 / 2), 300, 24);
+    label6->setBounds(100 + -70, (44 - (24 / 2)) + 188, 60, 24);
+    
+    sigoffSlider->setBounds(100, 264 - (24 / 2), 300, 24);
+    label7->setBounds(100 + -70, (44 - (24 / 2)) + 215, 60, 24);
+    
     title->setBounds(32, 8, 200, 24);
     mute->setBounds(336, 8, 56, 24);
     //[UserResized] Add your own custom resize handling here..
@@ -569,6 +600,11 @@ void OscillatorWaveSpec_2::sliderValueChanged(Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == freqSlider_2){
         //[UserSliderCode_freqSlider] -- add your slider handling code here..
         wave->setFrequencyStep(freqSlider_2 -> getValue());
+        //[/UserSliderCode_freqSlider]
+    }
+    else if (sliderThatWasMoved == freqSlider_3) {
+        //[UserSliderCode_freqSlider] -- add your slider handling code here..
+        wave->setFrequencyChangeTime(freqSlider_3->getValue());
         //[/UserSliderCode_freqSlider]
     }
     else if (sliderThatWasMoved == sigonSlider) {
